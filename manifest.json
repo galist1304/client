@@ -3,7 +3,7 @@
     "name": "Todo List",
     "icons": [
       {
-        "src": "/images/todoList-icon.png",
+        "src": "/src/images/todoList-icon.png",
         "sizes": "512x512"
       }
     ],
