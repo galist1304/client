@@ -4,14 +4,13 @@ import NavBar from "./components/NavBar";
 import useTasks from "../hooks/useTasks";
 import FilterButtons from "./components/FilterButtons";
 import TasksList from "./components/TasksList";
-import useLogin from "../hooks/useLogin";
 import { useContexts } from "../useContext/ContextsProvider";
 import Notification from "./components/Notification";
 import useDialog from "../hooks/useDialog";
+import ClearCompletedDialog from './components/ClearCompletedDialog';
 
 const UserTodoList = () => {
   const { taskBody, activeTasks, setTaskText, getTasks, updateTask, handleFilterClicked, deleteCompletedTasks, handleKeyPress, addTask, handleCheckBoxClick, handleDeleteClick } = useTasks();
-  const { fetchUserData } = useLogin();
   const { isDeleteCompleted, setIsDeleteCompleted } = useDialog()
   const { notificationData } = useContexts()
   const [hasNotification, setHasNotification] = useState(false);
@@ -24,7 +23,6 @@ const UserTodoList = () => {
 
   useEffect(() => {
     getTasks();
-    fetchUserData()
   }, []);
 
   useEffect(() => {

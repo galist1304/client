@@ -1,10 +1,10 @@
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import useLogin from '../../hooks/useLogin';
 
 const LogoutDialog = ({onClose}) => {
     const [open, setOpen] = React.useState(true);
-    const navigate = useNavigate('')
+    const {handleLogout} = useLogin();
 
     const handleClose = () => {
         setOpen(false);
@@ -20,7 +20,7 @@ const LogoutDialog = ({onClose}) => {
                         event.preventDefault();
                         handleClose();
                         onClose();
-                        navigate('/')
+                        handleLogout();
                     },
                 }}
             >

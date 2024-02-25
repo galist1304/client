@@ -10,13 +10,9 @@ import {
   Alert,
 } from "@mui/material";
 import useSignUp from "../hooks/useSignUp";
-import useLogin from "../hooks/useLogin";
-import { useContexts } from "../useContext/ContextsProvider";
 
 const SignUp = () => {
   const { userInput, message, errorText, handleSignUp, addUser, setUsername, setPassword } = useSignUp()
-  const { fetchUserData } = useLogin()
-  const { loggedUser } = useContexts()
   const navigate = useNavigate('/')
 
   useEffect(() => {
@@ -26,20 +22,10 @@ const SignUp = () => {
   }, [userInput]);
 
   useEffect(() => {
-    fetchUserData();
-  }, [message]);
-
-  useEffect(() => {
-    if (userInput.username !== undefined) {
-      if (loggedUser.role == "user") {
-        console.log("user");
-        navigate("/todolist");
-      } if (loggedUser.role == "admin") {
-        console.log("admin");
-        navigate("/admintodolist");
-      }
+    if (message !== '') {
+      navigate('/')
     }
-  }, [loggedUser])
+  }, [message]);
 
   return (
     <>

@@ -4,7 +4,6 @@ import useTasks from '../hooks/useTasks';
 import FilterButtons from './components/FilterButtons';
 import {  Button, Container, Grid } from '@mui/material';
 import TasksList from './components/TasksList';
-import useLogin from '../hooks/useLogin';
 import SearchBar from './components/admin/SearchBar';
 import AddIcon from '@mui/icons-material/Add';
 import useDialog from '../hooks/useDialog';
@@ -18,18 +17,15 @@ import ClearCompletedDialog from './components/ClearCompletedDialog';
 
 const AdminTodoList = () => {
   const { activeTasks, getTasks, updateTask, handleFilterClicked, deleteCompletedTasks, handleCheckBoxClick, handleDeleteClick, searchTasks } = useTasks();
-  const { fetchUserData } = useLogin();
   const { isEditing, setIsEditing, isAddNotification, setIsAddNotification, isSettingReminder, setIsSettingReminder, isDeleteCompleted, setIsDeleteCompleted } = useDialog();
-  const { notificationData, searchedTasks, setCurrentTask, errorText } = useContexts()
+  const { notificationData, searchedTasks, setCurrentTask } = useContexts()
   const [hasNotification, setHasNotification] = useState(false);
 
   useEffect(() => {
     getTasks();
-    fetchUserData();
   }, []);
 
   useEffect(() => {
-    console.log(notificationData);
     if (notificationData.taskText !== undefined) {
       setHasNotification(true);
     }
@@ -45,7 +41,7 @@ const AdminTodoList = () => {
             <SearchBar searchTasks={searchTasks} />
           </Grid>
           <Grid xs={1.5}>
-            <Button onClick={() => { fetchUserData(); errorText !== '' && setIsEditing(true) }}>
+            <Button onClick={() => {setIsEditing(true) }}>
               <AddIcon sx={{ color: 'black' }} />
             </Button>
           </Grid>

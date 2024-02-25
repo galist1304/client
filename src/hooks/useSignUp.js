@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { apiRequest } from "../apiRequest";
 
 const useSignUp = () => {
   const [username, setUsername] = useState("");
@@ -21,21 +20,14 @@ const useSignUp = () => {
       (userInput.username !== undefined && userInput.username.length >= 3 && userInput.username.length <= 100) &&
       (userInput.password !== undefined && userInput.password.length >= 3 && userInput.password.length <= 16)
     ) {
-      try {
         const base64password = btoa(password)
-        console.log(base64password);
         userInput.password = base64password
-        const { data } = await axios.post(
-          "http://127.0.0.1:8000/users/signup",
-          userInput,
-          { withCredentials: true }
-        );
-        console.log(data);
-        setMessage(data);
-      } catch (error) {
-        console.log(error);
-        setErrorText('Username already in use.')
-      }
+        const data = await apiRequest('POST', "http://127.0.0.1:8000/users/signup", userInput)
+        if(data.message){
+          setMessage(data);
+        } else{
+          setErrorText('Username already in use.')
+        }
     } else {
       setErrorText('Password must be 3-16 characters.')
     }

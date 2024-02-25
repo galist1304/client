@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useContexts } from "../useContext/ContextsProvider";
-
+import { apiRequest } from "../apiRequest";
 
 const useLogin = () => {
   const [username, setUsername] = useState("");
@@ -15,32 +14,23 @@ const useLogin = () => {
   const navigate = useNavigate("");
 
   // Sets the username and password into an object
-  const handleLogin = (event) => {
-    event.preventDefault();
-    setUserInput((prevData) => ({ ...prevData, username, password }));
-  };
-
-  // Logs the user in if the username and password are correct
-  const login = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     if (
-      (userInput.username && userInput.username.length >= 3 && userInput.username.length <= 100) &&
-      (userInput.password && userInput.password.length >= 3 && userInput.password.length <= 16)
+      (username && username.length >= 3 && username.length <= 100) &&
+      (password && password.length >= 3 && password.length <= 16)
     ) {
-      try {
         const base64password = btoa(password)
-        console.log(base64password);
-        userInput.password = base64password
-        const { data } = await axios.post(
-          "http://127.0.0.1:8000/users",
-          userInput,
-          { withCredentials: true }
-        );
+        const formData = new URLSearchParams();
+        formData.append('username', username)
+        formData.append('password', base64password)
+        const data = await apiRequest('POST', 'http://127.0.0.1:8000/users/login/token', formData)
         console.log(data);
-        setMessage(data);
-      } catch (error) {
-        console.log(error);
-        setErrorText('Username or password are incorrect.')
-      }
+        if(data.message){
+          setMessage(data);
+        } else {
+          setErrorText('Username or password are incorrect.')
+        }
     } else {
       setErrorText('Password must be 3-16 characters.');
     }
@@ -48,50 +38,35 @@ const useLogin = () => {
 
   // Gets the user data from the token
   const fetchUserData = async () => {
-    try {
-      const { data } = await axios.get(
-        "http://127.0.0.1:8000/users/tokenData",
-        { withCredentials: true }
-      );
-      setLoggedUser(data.userData);
-    } catch (error) {
-      console.log(error);
-      setErrorText('Unathorized')
-      if (
-        [
-          "Token not found in cookie",
-          "Invalid token",
-          "Invalid token format: Not enough segments",
-        ].includes(error.response.data.detail)
-      ) {
-        const confirm = window.confirm('You need to login in order to access this feature.')
-        if (confirm) {
-          navigate("/");
-        }
+      const data = await apiRequest('GET', "http://127.0.0.1:8000/users/tokenData")
+      if(data.userData){
+        setLoggedUser(data.userData);
+        return true;
+      } else {
+        setLoggedUser({})
+        return false;
       }
-    }
   };
 
   // Logs the user out 
   const handleLogout = async () => {
-    try {
-      const { data } = await axios.get('http://127.0.0.1:8000/users/logout')
+      const data = await apiRequest('GET', 'http://127.0.0.1:8000/users/logout')
       console.log(data);
+      setLoggedUser({})
       navigate('/')
-    } catch (error) {
-      console.log(error);
+  }
+
+  // logs the user in with the user data that google token gave us
+  const googleLogin = async (userData) => {
+    const data = await apiRequest('POST', "http://127.0.0.1:8000/users/googleLogin", userData);
+    if(data.userData){
+      setLoggedUser(data.userData);
+    } else {
+      setLoggedUser({})
     }
   }
 
-  // Alerts the user if he want to logout
-  const confirmLogout = () => {
-    const confirmation = window.confirm("Are you sure you want to log out?");
-    if (confirmation) {
-      handleLogout();
-    }
-  }
-
-  return { userInput, message, errorText, handleLogin, login, fetchUserData, confirmLogout, setUsername, setPassword }
+  return { userInput, message, errorText, handleLogin, fetchUserData, handleLogout, setUsername, setPassword, googleLogin }
 }
 
 export default useLogin

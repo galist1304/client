@@ -11,36 +11,28 @@ import {
 } from "@mui/material";
 import useLogin from "../hooks/useLogin";
 import { useContexts } from "../useContext/ContextsProvider";
+import GoogleLogin from "./components/GoogleLogin";
 
 const Login = () => {
-  const { userInput, message, errorText, handleLogin, login, fetchUserData, setUsername, setPassword } = useLogin()
+  const { message, errorText, handleLogin, fetchUserData, setUsername, setPassword } = useLogin()
   const { loggedUser } = useContexts()
   const navigate = useNavigate('/')
 
   useEffect(() => {
-    if (userInput.username && userInput.password) {
-      login()
-    }
-  }, [userInput]);
-
-  useEffect(() => {
-    if(message !== ''){
+    if (message !== '') {
       fetchUserData();
     }
   }, [message]);
 
   useEffect(() => {
-    if (userInput.username !== undefined) {
-      if (loggedUser.role == "user") {
-        console.log("user");
-        navigate("/todolist");
-      } if (loggedUser.role == "admin") {
-        console.log("admin");
-        navigate("/admintodolist");
-      }
+    if (loggedUser.role == "user") {
+      navigate("/todolist");
+    } if (loggedUser.role == "admin") {
+      navigate("/admintodolist");
     }
   }, [loggedUser])
 
+  
   return (
     <>
       {errorText !== '' && <Alert severity="error">
@@ -66,7 +58,7 @@ const Login = () => {
             <Typography component="h1" variant="h5">
               Log In
             </Typography>
-            <Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
+            <Box component="form" onSubmit={(e) => handleLogin(e)} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -103,6 +95,7 @@ const Login = () => {
                 Don't have an account? Sign Up
               </Typography>
             </Link>
+            <GoogleLogin/>
           </Box>
         </Container>
       </Box>
