@@ -3,11 +3,11 @@
     "name": "Todo List",
     "icons": [
       {
-        "src": "src/images/todoList-icon.png",
+        "src": "/images/todoList-icon.png",
         "sizes": "512x512",
         "type": "image/png"
       }
-    ],  
+    ], 
     "id": "/",
     "start_url": "/",
     "background_color": "#3367D6",
