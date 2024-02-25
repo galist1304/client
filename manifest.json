@@ -1,6 +1,12 @@
 {
     "short_name": "Todo List",
     "name": "Todo List",
+    "icons": [
+      {
+        "src": "/images/todoList-icon.png",
+        "sizes": "512x512"
+      }
+    ],
     "id": "/",
     "start_url": "/",
     "background_color": "#3367D6",
