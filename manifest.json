@@ -3,7 +3,7 @@
     "name": "Todo List",
     "icons": [
       {
-        "src": "C:/Users/Deckel/Desktop/todoListApp/client/src/images/todoList-icon.png",
+        "src": "./images/todoList-icon.png",
         "sizes": "512x512"
       }
     ],
