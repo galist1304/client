@@ -15,7 +15,7 @@ const useTasks = () => {
   // gets the user's tasks from the database
   const getTasks = async () => {
     const isValidToken = await fetchUserData()
-    const data = await apiRequest('GET', "http://127.0.0.1:8000/tasks", null, isValidToken);
+    const data = await apiRequest('GET', "https://127.20.10.3:8000/tasks", null, isValidToken);
     setUserTasks(data.tasks);
     setOriginalTasks(data.tasks);
     setSearchedTasks(data.tasks);
@@ -44,7 +44,7 @@ const useTasks = () => {
       text: task.text
     }));
     if (taskID) {
-      const data = await apiRequest('PATCH', `http://127.0.0.1:8000/tasks/update/${taskID}`, task, isValidToken);
+      const data = await apiRequest('PATCH', `https://127.20.10.3:8000/tasks/update/${taskID}`, task, isValidToken);
       console.log(data);
       if (isStatusUpdate) {
         // changes the task status (boolean) to the opposite, to update the checkbox
@@ -95,7 +95,7 @@ const useTasks = () => {
   const deleteCompletedTasks = async () => {
     const isValidToken = await fetchUserData()
     try {
-      const data = await apiRequest('DELETE', "http://127.0.0.1:8000/tasks/deleteCompleted", null, isValidToken);
+      const data = await apiRequest('DELETE', "https://127.20.10.3:8000/tasks/deleteCompleted", null, isValidToken);
       console.log(data);
       await getTasks();
     } catch (error) {
@@ -119,7 +119,7 @@ const useTasks = () => {
   const addTask = async () => {
     const isValidToken = await fetchUserData()
     if (taskBody.text !== undefined) {
-      const data = await apiRequest('POST', "http://127.0.0.1:8000/tasks", taskBody, isValidToken);
+      const data = await apiRequest('POST', "https://127.20.10.3:8000/tasks", taskBody, isValidToken);
       if (data == '400: Invalid username') {
         setErrorText('Username does not exist.');
       } else {
@@ -142,7 +142,7 @@ const useTasks = () => {
   const handleDeleteClick = async (taskID) => {
     const isValidToken = await fetchUserData()
     console.log(isValidToken);
-    const data = await apiRequest('DELETE', `http://127.0.0.1:8000/tasks/delete/${taskID}`,null, isValidToken);
+    const data = await apiRequest('DELETE', `https://127.20.10.3:8000/tasks/delete/${taskID}`,null, isValidToken);
     console.log(data);
     delete taskStatus[taskID];
     setUserTasks(userTasks.filter((task) => task._id !== taskID));
@@ -169,7 +169,7 @@ const useTasks = () => {
   const searchUsers = async (search) => {
     const isValidToken = await fetchUserData()
     if (search !== '') {
-      const data = await apiRequest('GET', `http://127.0.0.1:8000/users/usersList?search=${search}`, null, isValidToken);
+      const data = await apiRequest('GET', `https://127.20.10.3:8000/users/usersList?search=${search}`, null, isValidToken);
       setUsers(data.usersList)
     }
   }
