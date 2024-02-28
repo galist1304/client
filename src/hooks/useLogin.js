@@ -24,7 +24,7 @@ const useLogin = () => {
         const formData = new URLSearchParams();
         formData.append('username', username)
         formData.append('password', base64password)
-        const data = await apiRequest('POST', 'https://127.20.10.3:8000/users/login/token', formData)
+        const data = await apiRequest('POST', 'https://192.168.9.119:8000/users/login/token', formData)
         console.log(data);
         if(data.message){
           setMessage(data);
@@ -38,7 +38,7 @@ const useLogin = () => {
 
   // Gets the user data from the token
   const fetchUserData = async () => {
-      const data = await apiRequest('GET', "https://127.20.10.3:8000/users/tokenData")
+      const data = await apiRequest('GET', "https://192.168.9.119:8000/users/tokenData")
       if(data.userData){
         setLoggedUser(data.userData);
         return true;
@@ -50,7 +50,7 @@ const useLogin = () => {
 
   // Logs the user out 
   const handleLogout = async () => {
-      const data = await apiRequest('GET', 'https://127.20.10.3:8000/users/logout')
+      const data = await apiRequest('GET', 'https://192.168.9.119:8000/users/logout')
       console.log(data);
       setLoggedUser({})
       navigate('/')
@@ -58,7 +58,7 @@ const useLogin = () => {
 
   // logs the user in with the user data that google token gave us
   const googleLogin = async (userData) => {
-    const data = await apiRequest('POST', "https://127.20.10.3:8000/users/googleLogin", userData);
+    const data = await apiRequest('POST', "https://192.168.9.119:8000/users/googleLogin", userData);
     if(data.userData){
       setLoggedUser(data.userData);
     } else {

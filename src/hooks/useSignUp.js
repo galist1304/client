@@ -22,7 +22,7 @@ const useSignUp = () => {
     ) {
         const base64password = btoa(password)
         userInput.password = base64password
-        const data = await apiRequest('POST', "https://127.20.10.3:8000/users/signup", userInput)
+        const data = await apiRequest('POST', "https://192.168.9.119:8000/users/signup", userInput)
         if(data.message){
           setMessage(data);
         } else{
