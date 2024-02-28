@@ -24,7 +24,7 @@ const useLogin = () => {
         const formData = new URLSearchParams();
         formData.append('username', username)
         formData.append('password', base64password)
-        const data = await apiRequest('POST', 'http://127.0.0.1:8000/users/login/token', formData)
+        const data = await apiRequest('POST', 'http://172.20.10.3:8000/users/login/token', formData)
         console.log(data);
         if(data.message){
           setMessage(data);
@@ -38,7 +38,7 @@ const useLogin = () => {
 
   // Gets the user data from the token
   const fetchUserData = async () => {
-      const data = await apiRequest('GET', "http://127.0.0.1:8000/users/tokenData")
+      const data = await apiRequest('GET', "http://172.20.10.3:8000/users/tokenData")
       if(data.userData){
         setLoggedUser(data.userData);
         return true;
