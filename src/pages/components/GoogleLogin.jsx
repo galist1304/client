@@ -8,7 +8,7 @@ const GoogleLogin = () => {
     useEffect(() => {
         /* global google */
         google.accounts.id.initialize({
-          client_id: "785666814116-6s043aehflp0dj85fiu7un9fqlak91h4.apps.googleusercontent.",
+          client_id: "785666814116-6s043aehflp0dj85fiu7un9fqlak91h4.apps.googleusercontent.com",
           callback: handleCallbackResponse
         })
         google.accounts.id.renderButton(
