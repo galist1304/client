@@ -50,7 +50,7 @@ const useLogin = () => {
 
   // Logs the user out 
   const handleLogout = async () => {
-      const data = await apiRequest('GET', 'http://127.0.0.1:8000/users/logout')
+      const data = await apiRequest('GET', 'https://127.20.10.3:8000/users/logout')
       console.log(data);
       setLoggedUser({})
       navigate('/')
@@ -58,7 +58,7 @@ const useLogin = () => {
 
   // logs the user in with the user data that google token gave us
   const googleLogin = async (userData) => {
-    const data = await apiRequest('POST', "http://127.0.0.1:8000/users/googleLogin", userData);
+    const data = await apiRequest('POST', "https://127.20.10.3:8000/users/googleLogin", userData);
     if(data.userData){
       setLoggedUser(data.userData);
     } else {
